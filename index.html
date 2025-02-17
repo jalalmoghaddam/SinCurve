@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SinCurve</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      section {
+        margin: 100px auto;
+        width: 400px;
+        box-shadow: 0 5px 25px black;
+      }
+      #win {
+        position: relative;
+        height: 300px;
+        background-color: #eee;
+        background-size: cover;
+        /* border: 2px solid #3229b3; */
+        overflow: hidden;
+      }
+
+      .title {
+        width: 100%;
+        height: 100px;
+        line-height: 1.8rem;
+        box-sizing: border-box;
+        padding: 15px;
+        text-align: center;
+        background-color: #023150;
+        color: white;
+        font-family: Verdana;
+        position: relative;
+      }
+
+      img {
+        position: absolute;
+
+        width: 100px;
+      }
+
+      .shadow {
+        position: absolute;
+        animation: fadeout 1.5s forwards;
+        color: #000;
+        text-shadow: 0 0 5px #000;
+        font-size: 1.2rem;
+      }
+
+      @keyframes fadeout {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section>
+      <div id="win">
+        <img src="Me.png" />
+      </div>
+      <div class="title">
+        <h3>Sin Curve</h3>
+        <p>- - - Jalal Moghaddam - - -</p>
+      </div>
+    </section>
+  </body>
+
+  <script>
+    const win = document.getElementById("win");
+
+    const shadow = function (top, left) {
+      const copy = document.createElement("div");
+      copy.innerHTML = ">";
+      copy.style.left = left + "px";
+      copy.style.top = top + "px";
+      copy.classList.add("shadow");
+      win.appendChild(copy);
+
+      const pre = copy.previousSibling;
+      let preLeft = Number(pre.style.left.replace("px", ""));
+      let preTop = Number(pre.style.top.replace("px", ""));
+
+      let mx = left - preLeft;
+      let my = top - preTop;
+      let deg = (Math.atan2(my, mx) * 180) / Math.PI + "deg";
+      copy.style.rotate = deg;
+
+      setTimeout(() => {
+        win.removeChild(copy);
+      }, 1000);
+    };
+
+    let radius = 40;
+    let x = -1;
+    let v = 0.4;
+    setInterval(function () {
+      //x is out of window or not
+      //-1 for correct first position
+      x = x > 10 ? -1 : (x += v);
+      let y = Math.sin(x);
+
+      let left = x * radius;
+      let top = 150 + y * radius;
+
+      shadow(top, left);
+    }, 100);
+  </script>
+</html>
